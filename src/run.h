@@ -367,10 +367,12 @@ enum measurement_status run_algo(unsigned char **pattern_list, int m,
 
         int occur = search_func(P, m, T, n, &(results->measurements.search_times[k]), &(results->measurements.pre_times[k]));
 
-        if (occur == 0)
+        if (occur == 0 || occur == ALGO_ERROR_PROCESSING)
+        {
             return ERROR; // there must be at least one match for each text and pattern (patterns are extracted from text).
+        }
 
-        if (occur < 0)
+        if (occur == ALGO_CANNOT_SEARCH)
             return CANNOT_SEARCH; // negative value returned from search means it cannot search this pattern (e.g. it is too short)
 
         results->occurrence_count += occur;

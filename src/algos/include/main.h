@@ -25,6 +25,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define UNABLE_TO_SEARCH (-1)    // return code if an algorithm cannot search a pattern, e.g. if it is too small.
+#define ERROR_PROCESSING (-2)    // return code if an algorithm encounters an error during pre-processing or searching.
+
 /* global variables used for computing preprocessing and searching times */
 double _search_time, _pre_time; // searching time and preprocessing time
 

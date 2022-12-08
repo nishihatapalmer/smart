@@ -9,6 +9,12 @@
 #define MEGA_BYTE (1024 * 1024)           // constant for 1 MB size
 
 /*
+ * Search return codes
+ */
+#define ALGO_CANNOT_SEARCH (-1)           // return code for algorithms that cannot search for a given pattern in a text.
+#define ALGO_ERROR_PROCESSING (-2)        // return code for algorithms that encounter an error while pre-processing or searching.
+
+/*
  * Limits.
  */
 #define MAX_PATH_LENGTH 2048              // Maximum file path length.
@@ -61,6 +67,7 @@
 #define TEST_TEXT_SIZE 8192               // size of text buffer for testing.
 #define TEST_PATTERN_MAX_LEN 2048         // max length of random patterns to use when testing.
 #define MAX_FAILURE_MESSAGES 32           // max number of failure messages to record.
+
 /*
  * Console output formatting defines.
  */
