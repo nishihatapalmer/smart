@@ -57,17 +57,44 @@ void print_logo()
 }
 
 /*
+ * Prints a formatted message indented by a tab.
+ */
+void tab_print(const char *message, const char *format, va_list args)
+{
+    printf("\t%s", message);
+    vprintf(format, args);
+}
+
+/*
+ * Prints a formatted message after a string indented by a tab, given a list of variable arguments and a format string.
+ * If the formatted message starts with new lines, they are printed first, and the rest of the message is indented by a tab.
+ * Finishes with a newline.
+ */
+void print_message(const char *message, const char *format, va_list args)
+{
+    size_t len = strlen(format);
+    if (len > 0)
+    {
+        int offset = 0;
+        for (; offset < len && format[offset] == '\n'; offset++) printf("\n");
+        if (offset < len)
+        {
+            tab_print(message, format + offset, args);
+        }
+    }
+    printf("\n");
+}
+
+/*
  * Prints a formatted message prefixed by ERROR: and terminated with a new line.
  * The program then exits with return code 1.
  */
 void error_and_exit(const char * format, ...)
 {
-    printf("\n\tERROR: ");
     va_list args;
     va_start(args, format);
-    vprintf(format, args);
+    print_message("\nERROR: ", format, args);
     va_end(args);
-    printf("\n");
 
     exit(1);
 }
@@ -77,26 +104,23 @@ void error_and_exit(const char * format, ...)
  */
 void warn(const char * format, ...)
 {
-    printf("\tWARNING: ");
     va_list args;
     va_start(args, format);
-    vprintf(format, args);
+    print_message("WARNING: ", format, args);
     va_end(args);
-    printf("\n");
 }
 
 /*
  * Prints a message to the smart output with standard formatting.
  * Messages are preceded by a tab, and finished with a newline.
+ * If the user passes in a format that starts with new lines, it prints them first, followed by the indented info message.
  */
 void info(const char * format, ...)
 {
-    printf("\t");
     va_list args;
     va_start(args, format);
-    vprintf(format, args);
+    print_message("", format, args);
     va_end(args);
-    printf("\n");
 }
 
 /*

@@ -864,8 +864,7 @@ void test_algos(const test_command_opts_t *opts, const algo_info_t *algorithms)
             if (test_results.num_failure_messages > 0) num_failed++;
         }
 
-        info("");
-        info("Tested %d algorithms with %d failures.\n", algorithms->num_algos, num_failed);
+        info("\nTested %d algorithms with %d failures.\n", algorithms->num_algos, num_failed);
         free(T);
     }
     else
