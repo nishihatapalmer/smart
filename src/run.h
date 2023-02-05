@@ -438,7 +438,7 @@ void get_results_info(char output_line[MAX_LINE_LEN], const run_command_opts_t *
     }
 
     if (opts->pre)
-        snprintf(output_line, MAX_LINE_LEN, "\tmean: %.2f + [%.2f ± %.2f] ms\tmedian: %.2f + [%.2f] ms\t\t%s",
+        snprintf(output_line, MAX_LINE_LEN, "\tmean: %.3f + [%.3f ± %.3f] ms\tmedian: %.3f + [%.3f] ms\t\t%s",
                  results->statistics.mean_pre_time,
                  results->statistics.mean_search_time,
                  results->statistics.std_search_time,
@@ -446,7 +446,7 @@ void get_results_info(char output_line[MAX_LINE_LEN], const run_command_opts_t *
                  results->statistics.median_search_time,
                  occurence);
     else
-        snprintf(output_line, MAX_LINE_LEN, "\tmean: [%.2f ± %.2f] ms\tmedian: %.2f ms\t%s",
+        snprintf(output_line, MAX_LINE_LEN, "\tmean: [%.3f ± %.3f] ms\tmedian: %.3f ms\t%s",
                  results->statistics.mean_search_time + results->statistics.mean_pre_time,
                  results->statistics.std_search_time,
                  results->statistics.median_search_time + results->statistics.median_pre_time,

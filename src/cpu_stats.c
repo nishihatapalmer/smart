@@ -8,7 +8,8 @@ int zero_cpu_stats(cpu_stats_t *stats)
     stats->l1_cache_misses     = 0;
     stats->branch_instructions = 0;
     stats->branch_misses       = 0;
-
+    stats->l1i_cache_access    = 0;
+    stats->l1i_cache_misses    = 0;
     return 1;
 }
 
@@ -20,6 +21,8 @@ int cpu_stats_add(cpu_stats_t *to, const cpu_stats_t *add)
     to->l1_cache_misses     += add->l1_cache_misses;
     to->branch_instructions += add->branch_instructions;
     to->branch_misses       += add->branch_misses;
+    to->l1i_cache_access    += add->l1i_cache_access;
+    to->l1i_cache_misses    += add->l1i_cache_misses;
 }
 
 int cpu_stats_div(cpu_stats_t *to, const int divide_by)
@@ -30,6 +33,8 @@ int cpu_stats_div(cpu_stats_t *to, const int divide_by)
     to->l1_cache_misses     /= divide_by;
     to->branch_instructions /= divide_by;
     to->branch_misses       /= divide_by;
+    to->l1i_cache_access    /= divide_by;
+    to->l1i_cache_misses    /= divide_by;
 }
 
 #if defined __linux__
@@ -47,6 +52,8 @@ int cpu_stats_div(cpu_stats_t *to, const int divide_by)
 #include <string.h>
 
 static const __u32 L1_CACHE_CONFIG = PERF_COUNT_HW_CACHE_L1D | (PERF_COUNT_HW_CACHE_OP_READ << 8);
+static const __u32 L1I_CACHE_CONFIG = PERF_COUNT_HW_CACHE_L1I | (PERF_COUNT_HW_CACHE_OP_READ << 8);
+
 
 static long perf_event_open(struct perf_event_attr *hw_event, pid_t pid,
                             int cpu, int group_fd, unsigned long flags)
@@ -102,6 +109,14 @@ int cpu_perf_open(cpu_perf_events_t *perf_events, const int cpu_stats_to_get)
         if (group_leader == PERF_GROUP_LEADER) group_leader = perf_events->fd[CPU_STATS_BRANCH_INSTRUCTIONS];
         perf_events->fd[CPU_STATS_BRANCH_MISSES] =
                 open_measurement(PERF_TYPE_HARDWARE, PERF_COUNT_HW_BRANCH_MISSES, group_leader);
+    }
+
+    if (cpu_stats_to_get & CPU_STAT_L1I_CACHE) {
+        perf_events->fd[CPU_STATS_L1I_CACHE_ACCESS] =
+                open_measurement(PERF_TYPE_HW_CACHE, L1I_CACHE_CONFIG | (PERF_COUNT_HW_CACHE_RESULT_ACCESS << 16), group_leader);
+        if (group_leader == PERF_GROUP_LEADER) group_leader = perf_events->fd[CPU_STATS_L1I_CACHE_ACCESS];
+        perf_events->fd[CPU_STATS_L1I_CACHE_MISSES] =
+                open_measurement(PERF_TYPE_HARDWARE, L1I_CACHE_CONFIG | (PERF_COUNT_HW_CACHE_RESULT_MISS << 16), group_leader);
     }
 
     //TODO: deal with failure to open perf events.

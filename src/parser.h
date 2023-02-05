@@ -395,6 +395,8 @@ int parse_cpu_stats(run_command_opts_t *opts, int curr_arg, int argc, const char
             opts->cpu_stats |= CPU_STAT_LL_CACHE;
         else if (!strcmp(param, PARAM_CPU_STATS_BRANCHING))
             opts->cpu_stats |= CPU_STAT_BRANCHES;
+        else if (!strcmp(param, PARAM_CPU_STATS_FIRST_LEVEL_INSTRUCTION_CACHE))
+            opts->cpu_stats |= CPU_STAT_L1I_CACHE;
         else
             error_and_exit("Unknown parameter for cpu stats provided: %s", param);
     }

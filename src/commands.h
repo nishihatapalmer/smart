@@ -181,6 +181,7 @@ static char *const PARAM_CPU_PIN_LAST = "last";
 static char *const OPTION_SHORT_GET_CPU_STATS = "-cstats";
 static char *const OPTION_LONG_GET_CPU_STATS = "--cpu-stats";
 static char *const PARAM_CPU_STATS_FIRST_LEVEL_CACHE = "first";
+static char *const PARAM_CPU_STATS_FIRST_LEVEL_INSTRUCTION_CACHE = "instructions";
 static char *const PARAM_CPU_STATS_LAST_LEVEL_CACHE = "last";
 static char *const PARAM_CPU_STATS_BRANCHING = "branch";
 

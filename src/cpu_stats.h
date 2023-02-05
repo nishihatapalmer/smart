@@ -11,6 +11,8 @@
 #define CPU_STATS_L1_CACHE_MISSES        3
 #define CPU_STATS_BRANCH_INSTRUCTIONS    4
 #define CPU_STATS_BRANCH_MISSES          5
+#define CPU_STATS_L1I_CACHE_ACCESS       6
+#define CPU_STATS_L1I_CACHE_MISSES       7
 
 /*
  * Bitmask to capture Level 1 Data CPU Cache
@@ -26,6 +28,11 @@ static const int CPU_STAT_LL_CACHE = 0x02;
  * Bitmask to capture branch CPU stats.
  */
 static const int CPU_STAT_BRANCHES = 0x04;
+
+/*
+ * Bitmask to capture L1 instruction CPU stats.
+ */
+static const int CPU_STAT_L1I_CACHE = 0x08;
 
 /*
  * Holds the file descriptors for CPU performance events.
@@ -47,6 +54,8 @@ typedef struct cpu_stats
     long long l1_cache_misses;
     long long branch_instructions;
     long long branch_misses;
+    long long l1i_cache_access;
+    long long l1i_cache_misses;
 } cpu_stats_t;
 
 /*
